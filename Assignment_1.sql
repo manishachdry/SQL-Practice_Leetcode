@@ -1,3 +1,68 @@
+Banking Data
+--------------
+--------------
+
+
+
+ BRANCH                                   
+(
+	BRANCH_NAME	 	varchar(50),
+	BRANCH_CODE		varchar(10) unique
+)
+
+
+
+CUSTOMERS
+(
+	CUSTOMER_ID		varchar(20) primary key,
+	FIRST_NAME		varchar(50) not null,
+	LAST_NAME		varchar(50) not null,
+	PHONE_NO		bigint,
+	ADDRESS			varchar(50),
+	DOB				date,
+	IS_ACTIVE		VARCHAR(5)
+)
+
+
+ACCOUNTS
+(
+	ACCOUNT_NUMBER	bigint,
+	ACC_TYPE		varchar(30) check ( ACC_TYPE in ('Loan', 'Saving')),
+	CUST_ID			varchar(20),
+	BALANCE			float,
+	constraint pk_acc primary key (account_number),
+	constraint fk_acc foreign key (CUST_ID) references CUSTOMERS(CUSTOMER_ID)
+)
+
+
+TRANSACTIONS
+(
+	TRNS_ID			int primary key,
+	TRNS_TYPE		varchar(20) check (TRNS_TYPE in ('wire transfer', 'card transaction', 'net banking')),
+	TRNS_DATE		date,
+	ACC_NUMBER		bigint references ACCOUNTS(account_number),
+	AMOUNT			float,
+	STATUS			varchar(10)
+)
+
+
+ EMPLOYEES
+(
+	EMP_ID			varchar(20) primary key,
+	FIRST_NAME		varchar(50) not null,
+	LAST_NAME		varchar(50) not null,
+	SALARY			float ,
+	BRANCH_CODE		varchar(10) references BRANCH(branch_code)
+)
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 /* 1) Fetch all transaction data.
 */
 SELECT * FROM banking.transactions;
